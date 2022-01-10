@@ -28,10 +28,8 @@ class Grid:
                 
                 if self.birth_chance >= random.randint(1, 100):
                     elem.set_alive()
-                
-                # print(row_index - 1, elem_index, elem.get_character())
-                # print(self.grid[row_index - 1][elem_index].get_character())
                 elem_index += 1
+                
 
     def print_grid(self):
         row_index = 0 
@@ -96,7 +94,6 @@ class Grid:
                     elem_index += 1
                     continue
                 
-                #print(self.new_cell(elem, self.get_neighbors(row_index - 1, elem_index)))
                 if self.new_cell(elem.get_character(), self.get_neighbors(row_index - 1, elem_index)):
                     living_cells.append(elem)
                 else:
@@ -111,10 +108,3 @@ class Grid:
         for cell in dying_cells:
             cell.set_dead()
 
-
-# a = Grid(3, 3, 50)
-# # a.build_grid()
-# # a.print_grid()
-# # a.evolve()
-# # print()
-# # a.print_grid()
