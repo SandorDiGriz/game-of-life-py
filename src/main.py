@@ -1,41 +1,43 @@
+import argparse
+import sys
+
 from game import Game
 
-def set_game():
-    setting = True
-    while setting:
-        parameters = []
-        print("You can also choose the one-step game mode, the chance of cell birth and the generation limit \
-            \nType 'one-step' to change mode and other following the example: 'one-step 25 250'")
-        parameters = input().split()
-        if len(parameters) not in (1, 3):
-            print("Something is wierd. Let's try again")
-            continue
-        elif len(parameters) == 1 and parameters[0] in ("one-step", "auto"):
-            return parameters[0]
-        
-        for param in parameters:
-            if param not in  ("one-step", "auto"):
-                try:
-                    int(param)
-                except ValueError:
-                    print("Something is wierd. Let's try again")
-                    continue
-        setting = False
-    return ",".join(parameters)
 
-def play():
-    print("\nWelcome, stranger!\n" "\nPlease, define the size of the board  \
-        \n'50 30' for example")
-    rows, columns  = list(map(int, input().split()))
-    print("Now you are playing with the standard settings in auto mode." +
-        " To select the game mode and other parameters, write 'ok'. \nTo continue, write any other word")
+def main(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--rows", "-r", help="Number of grid's rows", required=True
+    )
+    parser.add_argument(
+        "--columns", "-c", help="Number of grid's rows", required=True
+    )
+    parser.add_argument(
+        "--mode", "-m", 
+        help="Mode of cell generation change  ('auto' | 'one-step'), default='auto'", 
+        default="auto"
+    )
+    parser.add_argument(
+        "--birth_chance", "-b", 
+        help="Percentage probability of a cell being born, default='25'", 
+        default=25
+    )
+    parser.add_argument(
+        "--generations_limit", "-g", 
+        help="Maximum number of generations, default='250'", 
+        default=250
+    )
     
-    if input() == "ok":
-        parameters = set_game()
+    args = parser.parse_args(args=argv)
     
-    print(parameters)
+    if args.mode not in ('auto','one-step'):
+        raise argparse.ArgumentTypeError(
+            "Invalid game mode: try 'auto' or'one-step'"
+        )
     
-    game = Game(rows, columns, parameters)
-    
+    game = Game(
+        rows=int(args.rows), columns=int(args.columns), mode=args.mode, 
+        birth_chance=args.birth_chance, generations_limit=args.generations_limit)
+    game.run()
         
-play()
+main(sys.argv[1:])
