@@ -1,7 +1,7 @@
 from grid import Grid
 
 class Game:
-    def __init__(self, rows, columns, mode="auto", birth_chance=25, generations_limit=250):
+    def __init__(self, rows: int, columns: int, mode="auto", birth_chance=25, generations_limit=250):
         self.rows = rows
         self.columns = columns
         self.mode = mode
@@ -9,7 +9,6 @@ class Game:
         self.generations_limit = generations_limit
         
     def run(self):
-        
         grid = Grid(self.rows, self.columns)
         grid.build_grid()
         game_over = False
@@ -20,12 +19,14 @@ class Game:
                     print()
                     grid.evolve()
                     grid.print_grid()
-                game_over = False
+                game_over = True
         else:
             while not game_over:
                 grid.print_grid()
+                print("Type 'g' to breed a new generation or anything else to quit")
                 if input() == "g":
                     grid.evolve()
                     grid.print_grid()
-                game_over = False
+                    continue
+                game_over = True
 

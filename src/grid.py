@@ -2,12 +2,12 @@ from cell import Cell
 import random
 
 class Grid:
-    def __init__(self, rows: int, elems: int, birth_chance=25, grid=None):
+    def __init__(self, rows: int, columns: int, birth_chance=25, grid=None):
         self.rows = rows + 2
-        self.elems = elems + 2
+        self.columns = columns + 2
         self.birth_chance = birth_chance
         if grid is None:
-            grid = [[Cell() for elem in range(self.elems)] for row in range(self.rows)]
+            grid = [[Cell() for elem in range(self.columns)] for row in range(self.rows)]
         self.grid = grid
 
     def build_grid(self) -> list[str]:
