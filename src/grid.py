@@ -56,35 +56,32 @@ class Grid:
 
     def get_neighbors(self, row_index, elem_index):
         neighbors = []
-        neighbors.append(self.grid[row_index - 1][elem_index - 1].get_character())
-        neighbors.append(self.grid[row_index - 1][elem_index].get_character())
-        neighbors.append(self.grid[row_index - 1][elem_index + 1].get_character())
-        neighbors.append(self.grid[row_index][elem_index - 1].get_character())
-        neighbors.append(self.grid[row_index][elem_index + 1].get_character())
-        neighbors.append(self.grid[row_index + 1][elem_index - 1].get_character())
-        neighbors.append(self.grid[row_index + 1][elem_index].get_character())
-        neighbors.append(self.grid[row_index + 1][elem_index + 1].get_character())
+        
+        operands = [1, 0, -1]
+        for x in operands:
+            for y in operands:
+                if x == 0 and y == 0:
+                    continue
+                neighbors.append(self.grid[row_index + x][elem_index + y].get_character())
         return neighbors
 
     @staticmethod
     def new_cell(current_cell, neighbors):
         count = 0
-        print(current_cell, neighbors)
         for neighbor in neighbors:
             if neighbor == "X":
                 count += 1
         if current_cell == "X" and count in (2, 3):
-            # print(1, current_cell, count)
             return True
         if current_cell == "-" and count == 3:
-            # print(2, current_cell, count)
             return True
         else:
-            # print(3, current_cell, count)
             return False
     
     def evolve(self):
-        row_index = 0 
+        row_index = 0
+        living_cells = []
+        dying_cells = []
         for row in self.grid:
             elem_index = 0
             
@@ -101,18 +98,23 @@ class Grid:
                 
                 #print(self.new_cell(elem, self.get_neighbors(row_index - 1, elem_index)))
                 if self.new_cell(elem.get_character(), self.get_neighbors(row_index - 1, elem_index)):
-                    elem.set_alive()
+                    living_cells.append(elem)
                 else:
-                    elem.set_dead()
-                print(elem.get_character(), self.get_neighbors(row_index - 1, elem_index))
-                print()
+                    dying_cells.append(elem)
+                    
                 elem_index += 1
-                
+        self.change_generation(living_cells, dying_cells)
+    
+    def change_generation(self, living_cells, dying_cells):
+        for cell in living_cells:
+            cell.set_alive()
+        for cell in dying_cells:
+            cell.set_dead()
 
-a = Grid(5, 5, 50)
-a.build_grid()
-a.print_grid()
-a.evolve()
-print()
-a.print_grid()
 
+# a = Grid(3, 3, 50)
+# # a.build_grid()
+# # a.print_grid()
+# # a.evolve()
+# # print()
+# # a.print_grid()
