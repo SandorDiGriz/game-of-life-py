@@ -1,10 +1,10 @@
 """File runs the game"""
 
 
+from game import Game
+
 import argparse
 import sys
-
-from game import Game
 
 
 def main(argv):
@@ -41,6 +41,10 @@ def main(argv):
     if args.birth_chance:
         try:
             int(args.birth_chance)
+            if int(args.birth_chance) <= 0:
+                raise argparse.ArgumentTypeError(
+                    "Invalid limit of generations: number must be greater than zero"
+                )
         except ValueError:
             raise argparse.ArgumentTypeError(
                 "Invalid probability of a cell birth: try to use numeric value"
@@ -49,6 +53,10 @@ def main(argv):
     if args.generations_limit:
         try:
             int(args.generations_limit)
+            if int(args.generations_limit) <= 0:
+                raise argparse.ArgumentTypeError(
+                    "Invalid limit of generations: number must be greater than zero"
+                )
         except ValueError:
             raise argparse.ArgumentTypeError(
                 "Invalid limit of generations: try to use numeric value"
