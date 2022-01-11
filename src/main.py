@@ -24,13 +24,13 @@ def main(argv):
         "--birth_chance",
         "-b",
         help="Percentage probability of a cell being born, default='25'",
-        default=25,
+        default="25",
     )
     parser.add_argument(
         "--generations_limit",
         "-g",
         help="Maximum number of generations, default='250'",
-        default=250,
+        default="250",
     )
 
     args = parser.parse_args(args=argv)
@@ -38,29 +38,10 @@ def main(argv):
     if args.mode not in ("auto", "one-step"):
         raise argparse.ArgumentTypeError("Invalid game mode: try 'auto' or 'one-step'")
 
-    if args.birth_chance:
-        try:
-            int(args.birth_chance)
-            if int(args.birth_chance) <= 0:
-                raise argparse.ArgumentTypeError(
-                    "Invalid limit of generations: number must be greater than zero"
-                )
-        except ValueError:
-            raise argparse.ArgumentTypeError(
-                "Invalid probability of a cell birth: try to use numeric value"
-            )
-
-    if args.generations_limit:
-        try:
-            int(args.generations_limit)
-            if int(args.generations_limit) <= 0:
-                raise argparse.ArgumentTypeError(
-                    "Invalid limit of generations: number must be greater than zero"
-                )
-        except ValueError:
-            raise argparse.ArgumentTypeError(
-                "Invalid limit of generations: try to use numeric value"
-            )
+    check_argument(args.rows)
+    check_argument(args.columns)
+    check_argument(args.birth_chance)
+    check_argument(args.generations_limit)
 
     game = Game(
         rows=int(args.rows),
@@ -70,6 +51,29 @@ def main(argv):
         generations_limit=int(args.generations_limit),
     )
     game.run()
+
+
+def check_argument(arg: str):
+    """
+    Assures argument is digestible
+
+    Parameters
+    ----------
+        arg (str): received from the console argument
+
+    Raises
+    ----------
+        argparse.ArgumentTypeError: if value is numeric must be greater than zero
+    """
+
+    if not arg.isnumeric():
+        raise argparse.ArgumentTypeError(
+            f"Invalid value : {arg}. Try to use numeric value"
+        )
+    if int(arg) <= 0:
+        raise argparse.ArgumentTypeError(
+            f"Invalid value : {arg}. Number must be greater than zero"
+        )
 
 
 main(sys.argv[1:])

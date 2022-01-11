@@ -20,9 +20,9 @@ class Game:
         self,
         rows: int,
         columns: int,
-        mode="auto",
-        birth_chance=25,
-        generations_limit=250,
+        mode: int = "auto",
+        birth_chance: int = 25,
+        generations_limit: int = 250,
     ):
         """Initialisation of all game parameters"""
         self.rows = rows

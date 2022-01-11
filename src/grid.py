@@ -17,7 +17,7 @@ class Grid:
     rows (int): Number of grid's rows
     columns (int): Number of grid's columns
     birth_chance (int, optional): Percentage probability of a cell being born. Defaults to 25.
-    grid (None): Plug for generating the grid with the 'Cell' objects.
+    grid (List[Cell]): Plug for generating the grid with the 'Cell' objects. Defaults to None.
     """
 
     def __init__(
