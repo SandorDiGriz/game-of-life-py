@@ -15,7 +15,6 @@ class Grid:
     ----------
     rows (int): Number of grid's rows
     columns (int): Number of grid's columns
-    mode (str, optional): Mode of cell generation change ('auto' | 'one-step'). Defaults to "auto".
     birth_chance (int, optional): [Percentage probability of a cell being born. Defaults to 25.
     grid (None): Plug for generating the grid with the 'Cell' objects.
     """
