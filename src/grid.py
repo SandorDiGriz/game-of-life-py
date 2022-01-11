@@ -2,12 +2,22 @@
 
 
 from cell import Cell
+from typing import List
 import random
 
 
 class Grid:
-    """Class implements functions for creating the board,
+    """
+    Class implements functions for creating the board,
     drawing it and changing its dwellers
+
+    Attributes
+    ----------
+    rows (int): Number of grid's rows
+    columns (int): Number of grid's columns
+    mode (str, optional): Mode of cell generation change ('auto' | 'one-step'). Defaults to "auto".
+    birth_chance (int, optional): [Percentage probability of a cell being born. Defaults to 25.
+    grid (None): Plug for generating the grid with the 'Cell' objects.
     """
 
     def __init__(self, rows: int, columns: int, birth_chance=25, grid=None):
@@ -23,7 +33,7 @@ class Grid:
             ]
         self.grid = grid
 
-    def build_grid(self) -> list[list[object]]:
+    def build_grid(self) -> List[List[Cell]]:
         """Creation of grid and and random cell colonization"""
         row_index = 0
         for row in self.grid:
@@ -64,6 +74,19 @@ class Grid:
             print()
 
     def get_neighbors(self, row_index, elem_index):
+        """
+        Collects cell circle neighbors
+
+        Parameters
+        ----------
+            row_index (int): Cell X coordinate
+            elem_index (int): Cell Y coordinate
+
+        Returns
+        -------
+            List[str]: list of characters ('-' | 'X') of cell neighbors
+        """
+
         neighbors = []
 
         operands = [1, 0, -1]
@@ -77,16 +100,20 @@ class Grid:
         return neighbors
 
     @staticmethod
-    def new_cell(current_cell: object, neighbors: list) -> bool:
-        """Creation of a new generation of cells
-
-        Args:
-            current_cell (object): each element from the grid
-            neighbors (list): list of cell neighbors
-
-        Returns:
-            [bool]: Is cell alive
+    def new_cell(current_cell: Cell, neighbors: List[str]) -> bool:
         """
+        Creation of a new generation of cells
+
+        Parameters
+        ----------
+            current_cell (Cell): each element from the grid
+            neighbors (List[str]): list of cell neighbors
+
+        Returns
+        -------
+            bool: Is cell alive
+        """
+
         count = 0
         # If living neighbors more then 3 cell dies
         # If cell is dead and has 3 living neighbors it lives
@@ -101,7 +128,7 @@ class Grid:
         else:
             return False
 
-    def evolve(self) -> list[list[object]]:
+    def evolve(self) -> List[List[Cell]]:
         """Gets the new cells generation"""
         row_index = 0
         living_cells = []
@@ -129,7 +156,7 @@ class Grid:
         # Evolving cells
         self.change_generation(living_cells, dying_cells)
 
-    def change_generation(self, living_cells: list, dying_cells: list):
+    def change_generation(self, living_cells: List[Cell], dying_cells: List[Cell]):
         """Evolves cells according to the life status"""
         for cell in living_cells:
             cell.set_alive()
