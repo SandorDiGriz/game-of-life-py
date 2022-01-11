@@ -16,17 +16,17 @@ execution: python <your path to main.py> *args
 
 obligatory arguments:
   --rows, -r,
-        Number of grid’s rows
+        "Number of grid’s rows"
   --columns, -c,
-        Number of grid’s columns
+        "Number of grid’s columns"
   
 optional arguments:
   --mode, -m, 
-        Mode of cell generation change  ("auto" | "one-step"), default = auto
+        "Mode of cell generation change  ("auto" | "one-step"), default = auto"
   --birth_chance, -b,
-        Percentage probability of a cell being born, default = 25
+        "Percentage probability of a cell being born, default = 25"
   --generations_limit, -g,
-        Maximum number of generations, default = 250
+        "Maximum number of generations, default = 250"
 ```
 
 ## Examples
