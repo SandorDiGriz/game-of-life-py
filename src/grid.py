@@ -3,6 +3,7 @@
 
 from cell import Cell
 from typing import List
+
 import random
 
 
@@ -15,11 +16,13 @@ class Grid:
     ----------
     rows (int): Number of grid's rows
     columns (int): Number of grid's columns
-    birth_chance (int, optional): [Percentage probability of a cell being born. Defaults to 25.
+    birth_chance (int, optional): Percentage probability of a cell being born. Defaults to 25.
     grid (None): Plug for generating the grid with the 'Cell' objects.
     """
 
-    def __init__(self, rows: int, columns: int, birth_chance=25, grid=None):
+    def __init__(
+        self, rows: int, columns: int, birth_chance=25, grid: List[Cell] = None
+    ):
         """Initialisation of grid's size and probability of cell birth"""
         # Adding borders to make the whole board playable
         self.rows = rows + 2
@@ -32,7 +35,7 @@ class Grid:
             ]
         self.grid = grid
 
-    def build_grid(self) -> List[List[Cell]]:
+    def build_grid(self):
         """Creation of grid and and random cell colonization"""
         row_index = 0
         for row in self.grid:
@@ -72,7 +75,7 @@ class Grid:
                 elem_index += 1
             print()
 
-    def get_neighbors(self, row_index, elem_index):
+    def get_neighbors(self, row_index: int, elem_index: int) -> List[str]:
         """
         Collects cell circle neighbors
 
@@ -105,8 +108,8 @@ class Grid:
 
         Parameters
         ----------
-            current_cell (Cell): each element from the grid
-            neighbors (List[str]): list of cell neighbors
+            current_cell (Cell): Each element from the grid
+            neighbors (List[str]): List of cell neighbors
 
         Returns
         -------
@@ -120,14 +123,11 @@ class Grid:
         for neighbor in neighbors:
             if neighbor == "X":
                 count += 1
-        if current_cell == "X" and count in (2, 3):
-            return True
-        if current_cell == "-" and count == 3:
-            return True
-        else:
-            return False
+        return (current_cell == "X" and count in (2, 3)) or (
+            current_cell == "-" and count == 3
+        )
 
-    def evolve(self) -> List[List[Cell]]:
+    def evolve(self):
         """Gets the new cells generation"""
         row_index = 0
         living_cells = []
@@ -156,7 +156,14 @@ class Grid:
         self.change_generation(living_cells, dying_cells)
 
     def change_generation(self, living_cells: List[Cell], dying_cells: List[Cell]):
-        """Evolves cells according to the life status"""
+        """
+        Evolves cells according to the life status
+
+        Parameters
+        ----------
+            living_cells (List[Cell]): List of living cells in the next generation
+            dying_cells (List[Cell]): List of dead cells in the next generation
+        """
         for cell in living_cells:
             cell.set_alive()
         for cell in dying_cells:

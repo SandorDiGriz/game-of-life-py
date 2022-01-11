@@ -25,7 +25,14 @@ class Cell:
         return self.life_status
 
     def get_character(self) -> str:
-        """Gets character due cell's life status"""
+        """
+        Gets character due cell's life status
+
+        Returns
+        -------
+            str: cell character ('X' if alive else '-')
+        """
+
         if self.is_alive:
             return "X"
         return "-"
