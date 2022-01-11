@@ -2,7 +2,8 @@
 
 
 class Cell:
-    """The class defines the properties of the cell,
+    """
+    The class defines the properties of the cell,
     its life status and character
     """
 
@@ -18,14 +19,13 @@ class Cell:
         """Death of the cell"""
         self.life_status = False
 
+    @property
     def is_alive(self) -> bool:
         """Checks if cell lives"""
-        if self.life_status:
-            return True
-        return False
+        return self.life_status
 
     def get_character(self) -> str:
         """Gets character due cell's life status"""
-        if self.is_alive():
+        if self.is_alive:
             return "X"
         return "-"

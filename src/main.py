@@ -36,14 +36,30 @@ def main(argv):
     args = parser.parse_args(args=argv)
 
     if args.mode not in ("auto", "one-step"):
-        raise argparse.ArgumentTypeError("Invalid game mode: try 'auto' or'one-step'")
+        raise argparse.ArgumentTypeError("Invalid game mode: try 'auto' or 'one-step'")
+
+    if args.birth_chance:
+        try:
+            int(args.birth_chance)
+        except ValueError:
+            raise argparse.ArgumentTypeError(
+                "Invalid probability of a cell birth: try to use numeric value"
+            )
+
+    if args.generations_limit:
+        try:
+            int(args.generations_limit)
+        except ValueError:
+            raise argparse.ArgumentTypeError(
+                "Invalid limit of generations: try to use numeric value"
+            )
 
     game = Game(
         rows=int(args.rows),
         columns=int(args.columns),
         mode=args.mode,
-        birth_chance=args.birth_chance,
-        generations_limit=args.generations_limit,
+        birth_chance=int(args.birth_chance),
+        generations_limit=int(args.generations_limit),
     )
     game.run()
 
