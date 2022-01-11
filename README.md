@@ -16,9 +16,9 @@ execution: python <your path to main.py> *args
 
 obligatory arguments:
   --rows, -r,
-        Number of grid's rows
+        Number of grid’s rows
   --columns, -c,
-        Number of grid's columns
+        Number of grid’s columns
   
 optional arguments:
   --mode, -m, 
